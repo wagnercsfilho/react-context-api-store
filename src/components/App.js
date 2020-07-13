@@ -1,11 +1,11 @@
 import React from "react";
 
-import { StoreProvider } from "./lib";
-import { TodoStore } from "./stores/todo.store";
-import { UserStore } from "./stores/user.store";
-import { Home } from "./components/Home";
+import { StoreProvider } from "../lib";
+import { TodoStore } from "../stores/todo.store";
+import { UserStore } from "../stores/user.store";
+import { Home } from "../components/Home";
 
-import "./styles.css";
+import "../styles.css";
 
 export default function App() {
   return (
@@ -14,6 +14,7 @@ export default function App() {
         TodoStore,
         UserStore,
       }}
+      enableCache
       storage={localStorage}
     >
       <Home />
