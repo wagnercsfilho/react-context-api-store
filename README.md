@@ -19,7 +19,7 @@ const TodoStore = Store(() => ({
 }));
 ```
 
-#### Wrapper Store into Provider
+#### Pass the Store to Provider
 
 ```js
 function App() {
