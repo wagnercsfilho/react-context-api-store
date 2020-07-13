@@ -63,12 +63,11 @@ const TodoItem = React.memo(({ todo, toogle }) => {
 });
 ```
 
-In the project directory, you can run:
+Getting started
+You can view a live demo over at https://codesandbox.io/s/eager-visvesvaraya-16uwp?file=/src/index.js
 
-`npm start`
+Running locally:
 
-Runs the app in the development mode.
-Open http://localhost:3000 to view it in the browser.
-
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+Clone this repo
+`npm install` to install all req'd dependencies
+`npm start` to start the local server (this project uses create-react-app)
