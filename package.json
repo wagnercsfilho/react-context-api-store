@@ -6,9 +6,6 @@
   "main": "src/index.js",
   "dependencies": {
     "immer": "7.0.5",
-    "mobx": "5.15.4",
-    "mobx-persist": "0.4.1",
-    "mobx-react": "6.2.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.1",
