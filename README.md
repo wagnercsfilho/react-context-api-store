@@ -1,4 +1,6 @@
-### Example of application with state management using Context API and Immer with embedded cache.
+### Example of application with state management using Context API, Multiples Providers, Immer and embedded cache.
+
+You can view a live demo over at https://codesandbox.io/s/eager-visvesvaraya-16uwp?file=/src/index.js
 
 #### Create a Store
 
@@ -62,9 +64,6 @@ const TodoItem = React.memo(({ todo, toogle }) => {
   );
 });
 ```
-
-Getting started
-You can view a live demo over at https://codesandbox.io/s/eager-visvesvaraya-16uwp?file=/src/index.js
 
 Running locally:
 
