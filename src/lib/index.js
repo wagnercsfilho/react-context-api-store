@@ -3,7 +3,11 @@ import React, { createContext, useContext, useEffect } from "react";
 import { useImmer } from "use-immer";
 
 const contexts = {};
-const stores = {};
+const _stores = {};
+
+export const getStore = (key) => {
+  return _stores[key];
+};
 
 function mergeDeep(target, source) {
   const isObject = (obj) => obj && typeof obj === "object";
@@ -30,7 +34,7 @@ function mergeDeep(target, source) {
 
 const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
   const [store, setStore] = useImmer(() => {
-    const _store = fn({ ...stores });
+    const _store = fn({ getStore });
 
     return {
       ..._store,
@@ -39,7 +43,7 @@ const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
         .reduce((acc, attr) => {
           acc[attr] = (...args) =>
             setStore((draft) => {
-              _store[attr].apply(draft, [...args, { ...stores }]);
+              _store[attr].apply(draft, [...args, { ..._stores }]);
 
               if (enableCache && storage)
                 storage.setItem("@store:" + storeKey, JSON.stringify(draft));
@@ -68,17 +72,14 @@ const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
     initCache();
   }, []);
 
-  stores[storeKey] = store;
   return store;
 };
 
 const CreateProvider = React.memo(
   ({ Provider, store, storage, enableCache, children, storeKey }) => {
-    return (
-      <Provider value={store(storeKey, { enableCache, storage })}>
-        {children}
-      </Provider>
-    );
+    _stores[storeKey] = store(storeKey, { enableCache, storage });
+
+    return <Provider value={_stores[storeKey]}>{children}</Provider>;
   }
 );
 
@@ -92,10 +93,12 @@ export const StoreProvider = ({ stores, storage, enableCache, children }) => {
   return Object.keys(stores).reduce((acc, key) => {
     const StoreContext = createContext();
     contexts[key] = StoreContext;
+
     return (
       <CreateProvider
         Provider={StoreContext.Provider}
         store={stores[key]}
+        stores={stores}
         storeKey={key}
         enableCache={enableCache}
         storage={storage}

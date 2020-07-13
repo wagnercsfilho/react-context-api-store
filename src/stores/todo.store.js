@@ -1,12 +1,13 @@
 import { Store } from "../lib";
 
-export const TodoStore = Store(({}) => {
+export const TodoStore = Store(({ getStore }) => {
   return {
     todos: [],
-    add(description, { UserStore }) {
+    add(description) {
       this.todos.push({
         id: new Date().getTime(),
-        description: description + " - from: " + UserStore.currentUser,
+        description:
+          description + " - from: " + getStore("UserStore").currentUser,
         done: false,
       });
     },
