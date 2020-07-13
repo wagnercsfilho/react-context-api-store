@@ -1,6 +1,6 @@
 ### Example of application with state management using Context API, Multiples Providers, Immer and embedded cache.
 
-You can view a live demo over at https://codesandbox.io/s/eager-visvesvaraya-16uwp
+You can view a live demo over at https://codesandbox.io/s/github/wagnercsfilho/react-context-api-store
 
 #### Create a Store
 
