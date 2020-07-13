@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect } from "react";
 import { useImmer } from "use-immer";
 
 const contexts = {};
+const stores = {};
 
 function mergeDeep(target, source) {
   const isObject = (obj) => obj && typeof obj === "object";
@@ -29,7 +30,7 @@ function mergeDeep(target, source) {
 
 const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
   const [store, setStore] = useImmer(() => {
-    const _store = fn({});
+    const _store = fn({ ...stores });
 
     return {
       ..._store,
@@ -38,7 +39,7 @@ const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
         .reduce((acc, attr) => {
           acc[attr] = (...args) =>
             setStore((draft) => {
-              _store[attr].apply(draft, [...args, { store: draft, setStore }]);
+              _store[attr].apply(draft, [...args, { ...stores }]);
 
               if (enableCache && storage)
                 storage.setItem("@store:" + storeKey, JSON.stringify(draft));
@@ -55,7 +56,6 @@ const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
           storage.getItem("@store:" + storeKey)
         );
         cache = cache ? JSON.parse(cache) : {};
-        console.log(cache);
 
         setStore((draft) => {
           Object.keys(cache).forEach((key) => {
@@ -68,6 +68,7 @@ const StoreHooks = (fn, storeKey, { enableCache, storage }) => {
     initCache();
   }, []);
 
+  stores[storeKey] = store;
   return store;
 };
 
